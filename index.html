@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Coordinate a prison break through a calculator. Ghost hacks. Kai counts. You transmit.">
+  <title>Zero Trace — Basement Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="game-shell">
+    <header class="game-header">
+      <div class="game-title">
+        <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+        <h1>Zero Trace</h1>
+      </div>
+      <p class="game-subtitle">Field operative online · Kai in custody</p>
+      <span class="ai-badge" id="ai-badge">AI · connecting</span>
+    </header>
+
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="loading-card">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p class="loading-text">Ghost is compiling a new mission via Ollama…</p>
+        <p class="loading-hint">Requires <code>npm start</code> and Ollama running locally</p>
+      </div>
+    </div>
+
+    <div class="game-layout">
+      <!-- Hacker comms -->
+      <section class="phone-panel" aria-label="Hacker secure chat">
+        <div class="phone-frame">
+          <div class="phone-status-bar">
+            <span class="phone-time" id="phone-time">--:--</span>
+            <span class="phone-signal terminal-tag">TOR · ENCRYPTED</span>
+          </div>
+
+          <div class="chat-header">
+            <div class="chat-avatar chat-avatar-hacker" aria-hidden="true">&gt;_</div>
+            <div class="chat-contact">
+              <span class="chat-name">Ghost</span>
+              <span class="chat-status" id="chat-status">on PC · uplink active</span>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+          <div class="chat-typing hidden" id="chat-typing" aria-hidden="true">
+            <span></span><span></span><span></span>
+            Ghost is typing
+          </div>
+
+          <div class="facility-banner" id="facility-banner">
+            <span class="banner-icon" aria-hidden="true">◈</span>
+            <span id="banner-text">Basement level · Sector B-7</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Calculator → Kai -->
+      <section class="calc-panel" aria-label="Calculator link to Kai">
+        <div class="calc-header">
+          <h2>Calculator → Kai</h2>
+          <p>Ghost feeds intel here. You transmit numbers to Kai's LED screen with <strong>=</strong>. He can only read digits.</p>
+          <div class="objective-box" id="objective-box">
+            <span class="objective-label">Transmit now</span>
+            <span class="objective-text" id="current-objective">Waiting for mission…</span>
+          </div>
+        </div>
+
+        <div class="calculator" aria-label="Calculator">
+          <div class="display" role="group" aria-label="Calculator display">
+            <div class="display-expression" id="expression" aria-live="polite" aria-atomic="true"></div>
+            <div class="display-result" id="result" aria-live="polite" aria-atomic="true">0</div>
+            <div class="display-hint" id="send-hint">= TRANSMIT TO KAI</div>
+          </div>
+
+          <div class="keypad" role="group" aria-label="Calculator keypad">
+            <button type="button" class="key key-fn" data-action="clear" aria-label="Clear">AC</button>
+            <button type="button" class="key key-fn key-backspace" data-action="backspace" aria-label="Backspace">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M6.5 4.5H16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6.5a1 1 0 0 1-.8-.4L2.6 11.1a1 1 0 0 1 0-1.2l3.1-4.1a1 1 0 0 1 .8-.4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M12.5 8.5 10 11M10 8.5l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <button type="button" class="key key-fn" data-action="toggle-sign" aria-label="Toggle sign">±</button>
+            <button type="button" class="key key-op" data-action="operator" data-value="/" aria-label="Divide">÷</button>
+
+            <button type="button" class="key key-num" data-action="digit" data-value="7">7</button>
+            <button type="button" class="key key-num" data-action="digit" data-value="8">8</button>
+            <button type="button" class="key key-num" data-action="digit" data-value="9">9</button>
+            <button type="button" class="key key-op" data-action="operator" data-value="*" aria-label="Multiply">×</button>
+
+            <button type="button" class="key key-num" data-action="digit" data-value="4">4</button>
+            <button type="button" class="key key-num" data-action="digit" data-value="5">5</button>
+            <button type="button" class="key key-num" data-action="digit" data-value="6">6</button>
+            <button type="button" class="key key-op" data-action="operator" data-value="-" aria-label="Subtract">−</button>
+
+            <button type="button" class="key key-num" data-action="digit" data-value="1">1</button>
+            <button type="button" class="key key-num" data-action="digit" data-value="2">2</button>
+            <button type="button" class="key key-num" data-action="digit" data-value="3">3</button>
+            <button type="button" class="key key-op" data-action="operator" data-value="+" aria-label="Add">+</button>
+
+            <button type="button" class="key key-num key-zero" data-action="digit" data-value="0">0</button>
+            <button type="button" class="key key-num" data-action="decimal" aria-label="Decimal point">.</button>
+            <button type="button" class="key key-equals key-send" data-action="send" aria-label="Transmit to Kai">=</button>
+          </div>
+        </div>
+
+        <div class="partner-led" aria-label="Kai LED channel log">
+          <div class="partner-led-header">
+            <span class="led-dot" aria-hidden="true"></span>
+            <span>Kai's LED channel</span>
+          </div>
+          <div class="partner-led-log" id="partner-log" role="log" aria-live="polite"></div>
+        </div>
+
+        <div class="rewards-panel">
+          <label>Active advantages</label>
+          <div class="rewards-log" id="rewards-log">
+            <span class="rewards-empty">None yet — succeed to earn tactical perks</span>
+          </div>
+        </div>
+
+        <div class="alert-meter">
+          <label for="alert-bar">Facility alert level</label>
+          <div class="meter-track">
+            <div class="meter-fill" id="alert-bar" style="width: 10%"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
